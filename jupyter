@@ -1,0 +1,81 @@
+#Passo 1: Importar bibliotecas necessarias para a automacao
+import time
+import pandas as pd
+import numpy as np
+from numpy import loadtxt
+import os
+
+#Passo 2: Calcular os indicadores
+tabela = pd.read_excel(r"/Users/silviobsjunior/Documents/Anex/Registro do movimento financeiro BAN.XLS")
+#Passo 3 - Remover colunas nao necessarias
+tabela = tabela.drop(tabela.columns[[11,12,13,14,15]], axis=1)
+#Remover colunas vazias
+tabela = tabela.dropna(how="all", axis=1)
+
+#Remover linhas com pelo menos um valor vazio
+tabela = tabela.dropna(how="any", axis=0)
+tabela, tabela.columns = tabela[1:] , tabela.iloc[0]
+
+Alterar cabeçalho de rows
+tabela.columns = tabela.columns.str.replace('Código', 'Codigo')
+tabela.columns = tabela.columns.str.replace('Codigo transação', 'Transacao')
+tabela.columns = tabela.columns.str.replace('Histórico', 'Historico')
+
+# Set the index of the DataFrame to the codigo movimento
+tabela = tabela.set_index("Codigo")
+tabela.head()
+tabela
+# With the index, we can drop the rows for a single moviment with its name
+tabela = tabela.drop("Código")
+
+# Drop rows for specific value:
+tabela.drop(tabela.index[tabela["Transacao"] == 30], inplace=True)
+tabela.drop(tabela.index[tabela["Transacao"] == 31], inplace=True)
+
+# Add new column at the specific position
+tabela.insert(6,'Tipo', "" )
+
+#Passo  - Adiciona tipo com base em valor
+tabela.loc[tabela["Transacao"] == 29, "Tipo"] = "Debito"
+tabela.loc[tabela["Transacao"] == 34, "Tipo"] = "Credito"
+tabela.loc[tabela["Transacao"] == 35, "Tipo"] = "Debito"
+
+# Add new column at the specific position
+tabela.insert(6,'Favorecido', "" )
+
+accepted_extensions = ["txt", "TXT"]
+
+pasta = '/Users/silviobsjunior/Documents/Anex/favorecidos'
+
+for diretorio, subpastas, arquivos in os.walk(pasta):
+    print(sorted(arquivos))
+    cont_arqs = len(arquivos)
+    i = 0
+    arquivos = [fn for fn in arquivos if fn.split(".")[-1] in accepted_extensions]
+    for arquivo in arquivos:
+        arqs = os.path.join(diretorio, arquivo)
+        print(arqs, "-", i+1, " / ", cont_arqs)
+
+        grades = open(arqs).readlines()
+        contents = []
+
+        for i in range(len(grades)):
+            contents.append(grades[i].strip('\n'))
+
+
+        def check_value(x):
+            for i in contents:
+                if i.lower() in x.lower():
+                    return os.path.splitext(arquivo)[0].upper()
+            return None
+        
+        
+        tabela['Favorecido'] = tabela['Historico'].apply(lambda x: check_value(x))
+
+
+#Passo 6 - Analise Inicial
+display(tabela["Favorecido"].value_counts())
+display(tabela["Favorecido"].value_counts(normalize=True).map("{:.2%}".format))
+        
+#Passo 7 - Exportar o relatorio atualizado
+tabela.to_csv("/Users/silviobsjunior/Documents/Anex/RMFinBAN.csv", index=False, mode='w')
