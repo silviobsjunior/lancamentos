@@ -7,7 +7,7 @@ uma pasta geral com arquivos TXT nomeados de cada favorecido contendo em cada li
 Script le cada arquivo e procura no historico as expressoes do arquivo (lista), caso encontre insere o nome do arquivo na coluna correspondente (loop)
 
 PROBLEMA
-No script montado, a cada arquivo lido, os dados são inseridos no local correto, POREM são apagados as informações corredas inseridas pela leitura do arquivo anterior, sendo que ao final, somente os dados do ultimo arquivo são salvos.
+No script montado, a cada arquivo lido, os dados são inseridos no local correto, POREM são apagados as informações corretas inseridas pela leitura do arquivo anterior, sendo que ao final, somente os dados do ultimo arquivo são salvos.
 
 Esperado ;)
 
