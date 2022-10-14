@@ -27,3 +27,24 @@ DEBORA    100.00%
 
 Como realizar corretamente?
 O arquivo gerado é usando no Power BI para criar a apresentação dos resultados.
+
+
+Na pasta favorecido criei arquivos TXT
+
+silvio.txt
+
+CONTEUDO
+cemig
+pallets
+fazenda
+
+maria.txt
+
+CONTEUDO
+empresas
+
+
+marcos.txt
+
+CONTEUDO
+celular
