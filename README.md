@@ -32,46 +32,46 @@ BOB-0Y01
 
 
 # Passo 1: Importar bibliotecas necessárias para a automação
-import pandas as pd
-import os
+         import pandas as pd
+         import os
 
 # Passo 2: Ler o arquivo excel (.XLS) dom o pandas
-tabela = pd.read_excel(r"/Users/silviobsjunior/Documents/Anex/Registro do movimento financeiro BAN.XLS")
+         tabela = pd.read_excel(r"/Users/silviobsjunior/Documents/Anex/Registro do movimento financeiro BAN.XLS")
 
 # Passo 3 - Remover colunas(column) nao necessarias
-tabela = tabela.drop(tabela.columns[[11,12,13,14,15]], axis=1)
+         tabela = tabela.drop(tabela.columns[[11,12,13,14,15]], axis=1)
 
 # Passo 4 - Remover colunas vazias
-tabela = tabela.dropna(how="all", axis=1)
+         tabela = tabela.dropna(how="all", axis=1)
 
 # Passo 5 - Remover linhas com pelo menos um valor vazio, assim pego as linhas de cabeçalho do relatório
-tabela = tabela.dropna(how="any", axis=0)
-tabela, tabela.columns = tabela[1:] , tabela.iloc[0]
+         tabela = tabela.dropna(how="any", axis=0)
+         tabela, tabela.columns = tabela[1:] , tabela.iloc[0]
 
 # Passo 6 - Alterar cabeçalho de colunas(rows) para tirar acentuação
-tabela.columns = tabela.columns.str.replace('Código transação', 'Transacao')
-tabela.columns = tabela.columns.str.replace('Histórico', 'Historico')
+         tabela.columns = tabela.columns.str.replace('Código transação', 'Transacao')
+         tabela.columns = tabela.columns.str.replace('Histórico', 'Historico')
 
 # Passo 7 - Set the index of the DataFrame to the Codigo
-tabela = tabela.set_index("Codigo")
-tabela.head()
-tabela
+         tabela = tabela.set_index("Codigo")
+         tabela.head()
+         tabela
 
 # Passo 8 - Remover as linhas(rows) com transações indesejadas:
-tabela.drop(tabela.index[tabela["Transacao"] == 30], inplace=True)
-tabela.drop(tabela.index[tabela["Transacao"] == 31], inplace=True)
+         tabela.drop(tabela.index[tabela["Transacao"] == 30], inplace=True)
+         tabela.drop(tabela.index[tabela["Transacao"] == 31], inplace=True)
 
 # Passo 9 - Inserir nova coluna(column) na posição especifica para classificar com base na transação - entrada/saida
-tabela.insert(6,'Tipo', "" )
+         tabela.insert(6,'Tipo', "" )
 
 # Passo 10  - Adiciona tipo com base em valor
-tabela.loc[tabela["Transacao"] == 29, "Tipo"] = "Debito"
-tabela.loc[tabela["Transacao"] == 34, "Tipo"] = "Credito"
-tabela.loc[tabela["Transacao"] == 35, "Tipo"] = "Debito"
+         tabela.loc[tabela["Transacao"] == 29, "Tipo"] = "Debito"
+         tabela.loc[tabela["Transacao"] == 34, "Tipo"] = "Credito"
+         tabela.loc[tabela["Transacao"] == 35, "Tipo"] = "Debito"
 
 # Passo 11 - Analise Inicial para ver quantos lançamentos foram classificados e se a quantidade bate com o total de lançamentos
-display(tabela["Transacao"].value_counts())
-display(tabela["Transacao"].value_counts(normalize=True).map("{:.2%}".format))
+         display(tabela["Transacao"].value_counts())
+         display(tabela["Transacao"].value_counts(normalize=True).map("{:.2%}".format))
 
 # Passo 12 -  Inserir nova coluna(column) em uma posição especifica
          tabela.insert(6,'Favorecido', "" )
@@ -96,25 +96,25 @@ display(tabela["Transacao"].value_counts(normalize=True).map("{:.2%}".format))
 
 #Função para checar ser uma das palavras/expressões da lista(list) contem no histórico e retornar com o nome do arquivo sem a extensão para ser inserido na coluna favorecido ou nada para a linha ficar elegível para a próxima pesquisa
 
-        def check_value(x):
-            for i in contents:
-                if i.lower() in x.lower():
-                    return os.path.splitext(arquivo)[0].upper()
-            return None
+                 def check_value(x):
+                     for i in contents:
+                         if i.lower() in x.lower():
+                             return os.path.splitext(arquivo)[0].upper()
+                     return None
 
-        
-        for index, row in tabela.iterrows():
-           if row['Favorecido'] == None or row['Favorecido'] == "":
-               row['Favorecido'] = check_value(str(row['Historico'])) 
-        
+
+                 for index, row in tabela.iterrows():
+                    if row['Favorecido'] == None or row['Favorecido'] == "":
+                        row['Favorecido'] = check_value(str(row['Historico'])) 
+
 
 
 # Passo 14 - Analise Inicial
-display(tabela["Favorecido"].value_counts())
-display(tabela["Favorecido"].value_counts(normalize=True).map("{:.2%}".format))
+         display(tabela["Favorecido"].value_counts())
+         display(tabela["Favorecido"].value_counts(normalize=True).map("{:.2%}".format))
 
 # Passo 15 - Exportar o arquivo atualizado para ser usado como base de dados no Power BI e apresentar meus indicadores
-tabela.to_csv("/Users/silviobsjunior/Documents/Anex/RMFinBAN.csv", index=False, mode='w')
+         tabela.to_csv("/Users/silviobsjunior/Documents/Anex/RMFinBAN.csv", index=False, mode='w')
 
 
 // FIM
