@@ -38,7 +38,7 @@ import os
 tabela = pd.read_excel(r"/Users/silviobsjunior/Documents/Anex/Registro do movimento financeiro BAN.XLS")
 
 **#Passo 3 - Remover colunas(column) nao necessarias**
-tabela = tabela.drop(tabela.columns[[11,12,13,14,15]], axis=1)
+]tabela = tabela.drop(tabela.columns[[11,12,13,14,15]], axis=1)
 
 **#Passo 4 - Remover colunas vazias**
 tabela = tabela.dropna(how="all", axis=1)
