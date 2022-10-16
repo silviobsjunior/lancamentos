@@ -74,25 +74,25 @@ display(tabela["Transacao"].value_counts())
 display(tabela["Transacao"].value_counts(normalize=True).map("{:.2%}".format))
 
 # Passo 12 -  Inserir nova coluna(column) em uma posição especifica
-tabela.insert(6,'Favorecido', "" )
+         tabela.insert(6,'Favorecido', "" )
 
 
 # Passo 13 - Ler os arquivos na pasta para pesquisar se consta no histórico as palavras/expressões
 
-accepted_extensions = ["txt", "TXT"]
+         accepted_extensions = ["txt", "TXT"]
 
-pasta = '/Users/silviobsjunior/Documents/Anex/favorecidos'
+         pasta = '/Users/silviobsjunior/Documents/Anex/favorecidos'
 
-for diretorio, subpastas, arquivos in os.walk(pasta):
-   arquivos = sorted([fn for fn in arquivos if fn.split(".")[-1] in accepted_extensions])
-    for arquivo in arquivos:
-       arqs = os.path.join(diretorio, arquivo)
+         for diretorio, subpastas, arquivos in os.walk(pasta):
+            arquivos = sorted([fn for fn in arquivos if fn.split(".")[-1] in accepted_extensions])
+             for arquivo in arquivos:
+                arqs = os.path.join(diretorio, arquivo)
 
-        grades = open(arqs).readlines()
-        contents = []
+                 grades = open(arqs).readlines()
+                 contents = []
 
-        for i in range(len(grades)):
-            contents.append(grades[i].strip('\n'))
+                 for i in range(len(grades)):
+                     contents.append(grades[i].strip('\n'))
 
 #Função para checar ser uma das palavras/expressões da lista(list) contem no histórico e retornar com o nome do arquivo sem a extensão para ser inserido na coluna favorecido ou nada para a linha ficar elegível para a próxima pesquisa
 
