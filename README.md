@@ -121,5 +121,5 @@ BOB-0Y01
 
 Eu estava usando uma outra forma para localizar quais linhas que iriam receber o nome do arquivo, porém a cada arquivo os demais linhas tinha a coluna favorecido que retornou False apagado seu conteúdo, ficando somente identificado o favorecido do ultimo arquivo(.txt) lido
 
-#tabela['Favorecido'] = tabela['Historico'].apply(lambda x: check_value(x))
+         #tabela['Favorecido'] = tabela['Historico'].apply(lambda x: check_value(x))
 Não sei como inserir(se possível) uma condicional na lambda para pesquisar somente as linhas onde a coluna favorecido ainda não conste valor inserido.
